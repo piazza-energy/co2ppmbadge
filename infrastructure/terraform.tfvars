@@ -1,0 +1,5 @@
+aws_profile = "dv-co2ppmbadge"
+aws_region = "eu-west-1"
+namespace = "co2ppmbadge"
+domain_name = "piazza.energy"
+stage_env = "dev"
