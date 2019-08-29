@@ -1,3 +1,22 @@
+resource "aws_iam_role" "iam_for_lambda" {
+  name = "iam_for_lambda"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
 resource "aws_iam_policy" "lambda_logging" {
@@ -22,6 +41,7 @@ resource "aws_iam_policy" "lambda_logging" {
 EOF
 }
 
+# attaches to the iam role for lambdas a policy that allows the creation of log events
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role = "${aws_iam_role.iam_for_lambda.name}"
   policy_arn = "${aws_iam_policy.lambda_logging.arn}"
@@ -55,6 +75,7 @@ resource "aws_iam_policy" "lambda_s3_access" {
 EOF
 }
 
+# attaches to the iam role for lambdas a policy that allows the creation of objects in the badges S3 bucket
 resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
   role = "${aws_iam_role.iam_for_lambda.name}"
   policy_arn = "${aws_iam_policy.lambda_s3_access.arn}"

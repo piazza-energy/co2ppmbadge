@@ -51,7 +51,6 @@ def get_badges_dict(hqcasanova_data, file_type):
         for d in keys
     }
 
-
 def create_badges_files(hqcasanova_data, path):
     date = hqcasanova_data['date'].date()
     files = []

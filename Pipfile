@@ -17,6 +17,8 @@ pybadges = "*"
 requests = "*"
 pendulum = "*"
 python-dotenv = "*"
+jinja2 = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"

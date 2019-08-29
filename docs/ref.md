@@ -11,10 +11,7 @@
 
 # Technical information
 
-## infrastructure
-
-## libraries
-
-- https://github.com/google/pybadges to generate locally
+- [a very good article](https://dev.to/frosnerd/event-handling-in-aws-using-sns-sqs-and-lambda-2ng#) explaining how to hook sns and lambda using Terraform scripts
+- https://github.com/google/pybadges to generate SVG badges locally
 - https://github.com/badges/shields can be used also feeding it a json endpoint https://shields.io/endpoint
 

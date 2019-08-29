@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CO2 PPM Badge</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700&display=swap" rel="stylesheet">
+    <meta property="og:title" content="CO2 PPM Badge">
+    <meta property="og:site_name" content="CO2 PPM Badge">
+    <meta property="og:url" content="https://co2ppmbadge.piazza.energy/">
+    <meta property="og:description" content="show you care for this planet: add an image on any website showing current and past levels of CO2 Parts Per Million in the atmosphere">
+    <meta property="og:type" content="product">
+    <meta property="og:image" content="https://co2ppmbadge.piazza.energy/latest/banner_sq.png">
+    <style>
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed,
+      figure, figcaption, footer, header, hgroup,
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      body { font-family: 'Open Sans', sans-serif; font-size: 1.12rem; }
+      h1, h2, h3, h4 { font-family: 'Roboto Slab', serif; padding: 35px 0 10px;}
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.6rem; }
+      h3 { font-size: 1.2rem; }
+      p { padding: 5px 0 10px; }
+      header, footer { background-color: black; color: white; padding: 100px 0 120px; }
+      footer { font-size: 0.8rem; color: silver; margin-top: 40px; }
+      footer p { padding: 2px 0 5px; }
+      header span { color: coral; }
+      a, a:active { color: chocolate; }
+      ul { margin-left: 30px; }
+      button { font-size: 1rem; padding: 3px 5px; }
+      pre { background-color: coral; color: white; padding: 30px 10px; }
+      .container { width: 70%; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>CO2<span>PPM</span>Badge</h1>
+        <p>show you care for this planet: easily add an image on any website
+          showing current and past levels of CO2 Parts Per Million in the
+          atmosphere</p>
+      </div>
+    </header>
+    <main role="main">
+      <section id="introduction">
+        <div class="container">
+          <h1>Why a Badge</h1>
+          <p>APIs are for nerds, badges are easy and cool!</p>
+        </div>
+      </section>
+      <section id="badges">
+        <div class="container">
+          <h1>The Badges</h1>
+          <ul>
+            <li>
+              ppm00:
+              <img src="https://co2ppmbadge.piazza.energy/latest/ppm00.svg">
+              latest
+            </li>
+            <li>
+              ppm01:
+              <img src="https://co2ppmbadge.piazza.energy/latest/ppm01.svg">
+              1 year before
+            </li>
+            <li>
+              ppm10:
+              <img src="https://co2ppmbadge.piazza.energy/latest/ppm10.svg">
+              10 years before
+            </li>
+          </ul>
+          <h2>How to embed</h2>
+          <p>just add any of the following images to your HTML:</p>
+          <pre id="embed_svg">
+          </pre>
+        </div>
+      </section>
+      <section id="stats">
+        <div class="container">
+          <h1>Some stats</h1>
+          <div id="datahub">
+            <p>To see historical data from Datahub <button onclick="loadDatahub(this)">click here</button> (will load approx 1MB of data)</p>
+          </div>
+      </div>
+      </section>
+      <section id="archive">
+        <div class="container">
+          <h1>The archive</h1>
+          <p>a list of previously released badges</p>
+          <ul>
+            {% for day in days %}
+              <li>ppm00 {{ day['ppm00.svg'].date }} <img href="{{ day['ppm00.svg'].url }}" /></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+      <section id="learn">
+        <div class="container">
+          <h1>Learn More</h1>
+          <p>some quick references</p>
+          <h2>CO2 information</h2>
+          <ul>
+            <li><a href="https://e360.yale.edu/features/how-the-world-passed-a-carbon-threshold-400ppm-and-why-it-matters">very good post on Yale.edu</a></li>
+            <li><a href="https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html">Mauna Loa</a> by National Oceanic and Atmospheric Administration (NOAA), exposes a <a href="https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml">RSS feed</a></li>
+          </ul>
+          <h2>Data Sources</h2>
+          <ul>
+            <li><a href="http://hqcasanova.com/en/projects/co2.php">HQCasanova</a> uses the NOAA rss feed, also linked on <a href="https://www.programmableweb.com/api/hqcasanova-weekly-co2">programmable web</a></li>
+            <li><a href="https://www.co2.earth/daily-co2">CO2 earth</a></li>
+            <li><a href="https://datahub.io/core/co2-ppm#python">Datahub CO2 PPM</a> uses the <a href="https://github.com/frictionlessdata/datapackage-py">datapackage library</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <p>This project is proudly sponsored by <a href="https://deep.ventures/">Deep.Ventures</a></p>
+        <p>Check the source code and contribute by visiting this <a href="http://github.com/piazza-energy/co2ppmbadge">Github repo</a></p>
+        <p>Energy Piazza &copy; 2019</p>
+      </div>
+    </footer>
+    <script>
+      const base_url = 'https://co2ppmbadge.piazza.energy/latest/';
+      const embed_svg = document.getElementById('embed_svg');
+      ['ppm00.svg', 'ppm01.svg', 'ppm10.svg'].forEach(function(element) {
+        const img_tag = document.createTextNode(`<img src="${base_url + element}">\n`);
+        embed_svg.appendChild(img_tag);
+      });
+      const loadDatahub = function(elem) {
+        elem.disabled = true;
+
+        // <iframe src="" width="100%" height="475px" frameborder="0"></iframe>
+        const iFrm = document.createElement('iframe');
+        iFrm.setAttribute('src', 'https://datahub.io/core/co2-ppm/view/0');
+        iFrm.setAttribute('frameborder', '0');
+        iFrm.style.width = '100%';
+        iFrm.style.height = '475px';
+
+        const dh_container = document.getElementById('datahub');
+        dh_container.appendChild(iFrm);
+      }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16570713-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-16570713-5');
+    </script>
+  </body>
+</html>

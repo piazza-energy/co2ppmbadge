@@ -1,5 +1,7 @@
+import json
 import pytest
-from datetime import datetime, timezone
+
+from datetime import datetime, date, timezone
 
 from co2ppmbadge.utils.datasrc.hqcasanova import get_data
 
@@ -32,12 +34,45 @@ def hqcasanova_static_data():
     }
 
 
+@pytest.fixture
+def sns_event():
+    message = json.dumps({
+        'data': {
+            'date': date.today().isoformat(),
+            'bucket': 'MOCK_BUCKET',
+            'keys': [f'latest/{f_name}' for f_name in ['ppm00.svg', 'ppm01.svg', 'ppm10.svg']]
+        }
+    })
+    return {
+        "Records":[
+            {
+                "EventSource":"aws:sns",
+                "EventVersion": "1.0",
+                "EventSubscriptionArn": "arn:aws:sns:us-east-1:123456789012:lambda_topic:0b6941c3-f04d-4d3e-a66d-b1df00e1e381",
+                "Sns":{
+                    "Type": "Notification",
+                    "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
+                    "TopicArn": "arn:aws:sns:us-east-1:123456789012:lambda_topic",
+                    "Subject": "TestInvoke",
+                    "Message": message,
+                    "Timestamp": "2019-04-02T07:36:57.451Z",
+                    "SignatureVersion": "1",
+                    "Signature": "r0Dc5YVHuAglGcmZ9Q7SpFb2PuRDFmJNprJlAEEk8CzSq9Btu8U7dxOu++uU",
+                    "SigningCertUrl": "http://sns.us-east-1.amazonaws.com/SimpleNotificationService-d6d679a1d18e95c2f9ffcf11f4f9e198.pem",
+                    "UnsubscribeUrl": "http://cloudcast.amazon.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:123456789012:example_topic:0b6941c3-f04d-4d3e-a66d-b1df00e1e381",
+                    "MessageAttributes": {"key":{"Type":"String","Value":"value"}}
+                }
+            }
+        ]
+    }
+
+
 @pytest.fixture()
 def apigw_event():
     """ Generates API GW Event"""
 
     return {
-        "body": '{ "test": "body"}',
+        "body": '{ "test": "body" }',
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",

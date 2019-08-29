@@ -32,6 +32,7 @@ resource "aws_s3_bucket" "logging" {
   }
 }
 
+# allows the cdn to get objects from the bucket
 resource "aws_s3_bucket_policy" "badges_cdn" {
 bucket = "${aws_s3_bucket.badges.id}"
 
@@ -64,6 +65,7 @@ bucket = "${aws_s3_bucket.badges.id}"
 POLICY
 }
 
+# allows the cdn to write its logs
 resource "aws_s3_bucket_policy" "logging_cdn" {
 bucket = "${aws_s3_bucket.logging.id}"
 

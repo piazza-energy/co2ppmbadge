@@ -23,6 +23,11 @@ provider "local" {
   version = "~> 1.3"
 }
 
+module "notifications" {
+  source          = "./notifications"
+  lambda_iam_role = "${module.lambda.lambda_role_arn}"
+}
+
 module "storage" {
   source                         = "./storage"
   namespace                      = "${var.namespace}"
@@ -31,11 +36,14 @@ module "storage" {
 }
 
 module "lambda" {
-  source            = "./lambda"
-  namespace         = "${var.namespace}"
-  bucket_sources    = "${module.storage.s3_bucket_sources_id}"
-  bucket_badges     = "${module.storage.s3_bucket_badges_id}"
-  bucket_badges_arn = "${module.storage.s3_bucket_badges_arn}"
+  source                   = "./lambda"
+  namespace                = "${var.namespace}"
+  aws_region               = "${var.aws_region}"
+  bucket_sources           = "${module.storage.s3_bucket_sources_id}"
+  bucket_badges            = "${module.storage.s3_bucket_badges_id}"
+  bucket_badges_arn        = "${module.storage.s3_bucket_badges_arn}"
+  sns_new_badges_topic_arn = "${module.notifications.new_badges_topic_arn}"
+  base_path_src            = "${path.cwd}/../co2ppmbadge"
 }
 
 module "dns" {
@@ -58,24 +66,4 @@ module "cdn" {
   bucket_badges_rn = "${module.storage.s3_bucket_badges_regional_name}"
   bucket_logging   = "${module.storage.s3_bucket_logging_id}"
   domain_name      = "${var.domain_name}"
-}
-
-resource "local_file" "env_create_badges" {
-  filename = "${path.cwd}/../co2ppmbadge/serverless/create_badges/.env"
-  content  = templatefile(
-    "${path.cwd}/templates/env_create_badges.tmpl", {
-      region = "${var.aws_region}"
-      bucket_badges = "${module.storage.s3_bucket_badges_id}"
-    }
-  )
-}
-
-resource "local_file" "sam_config" {
-  filename = "${path.cwd}/../co2ppmbadge/config.json"
-  content  = templatefile(
-    "${path.cwd}/templates/sam_config.tmpl", {
-      region = "${var.aws_region}"
-      layer_arn = "${module.lambda.lambda_layer_arn}"
-    }
-  )
 }
