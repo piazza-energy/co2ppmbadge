@@ -4,6 +4,10 @@ import mimetypes
 
 from botocore.exceptions import ClientError
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+
 def upload_file(file_name, bucket_name, object_name=None):
     """Upload a file to an S3 bucket
 
@@ -24,7 +28,8 @@ def upload_file(file_name, bucket_name, object_name=None):
             file_name,
             object_name,
             ExtraArgs={'ContentType': mime[0]})
-    except ClientError as e:
-        logging.error(e)
+        logger.info(f'{bucket_name}/{object_name} uploaded with mime {mime[0]}')
+    except Exception as e:
+        logger.error(e)
         return False
     return True

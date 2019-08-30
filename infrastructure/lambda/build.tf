@@ -1,12 +1,12 @@
 locals {
-  lambda_env = templatefile(
+  lambda_env = "${templatefile(
     "${path.module}/templates/env_lambdas.tmpl",
     {
       region = "${var.aws_region}"
       bucket_badges = "${var.bucket_badges}"
       sns_topic_new_badges = "${var.sns_new_badges_topic_arn}"
     }
-  )
+  )}"
 }
 
 resource "local_file" "env_create_badges" {
@@ -21,12 +21,12 @@ resource "local_file" "env_create_webview" {
 
 resource "local_file" "sam_config" {
   filename = "${var.base_path_src}/config.json"
-  content  = templatefile(
+  content  = "${templatefile(
     "${path.module}/templates/sam_config.tmpl", {
       region = "${var.aws_region}"
       layer_arn = "${aws_lambda_layer_version.lambda_layer.arn}"
     }
-  )
+  )}"
 }
 
 # lambda functions depending on this resource can have their .env created before they are deployed
@@ -43,7 +43,7 @@ resource "local_file" "build_version" {
   # allows the .env to be created BEFORE make is run
   # lambda functions should depend on this resource to force running of make
   depends_on = [
-    local_file.env_create_badges,
-    local_file.env_create_webview
+    "local_file.env_create_badges",
+    "local_file.env_create_webview"
   ]
 }

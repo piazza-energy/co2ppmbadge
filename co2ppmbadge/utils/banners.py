@@ -25,21 +25,55 @@ def banner_sq(hqcasanova_data):
     # medium text
     font = ImageFont.truetype(FONT, 20)
     draw.text((35, 2), 'CO2 PPM', fill='white', font=font)
-    draw.text((10, 120), f'{round(hqcasanova_data["1"], 2)}', fill='white', font=font)
-    draw.text((85, 120), f'{round(hqcasanova_data["10"], 2)}', fill='white', font=font)
+    draw.text((10, 120), f'{round(hqcasanova_data["1"], 2):.2f}', fill='white', font=font)
+    draw.text((85, 120), f'{round(hqcasanova_data["10"], 2):.2f}', fill='white', font=font)
 
     # big text
     font = ImageFont.truetype(FONT, 36)
-    draw.text((20, 45), f'{round(hqcasanova_data["0"], 2)}', fill='white', font=font)
+    draw.text((20, 45), f'{round(hqcasanova_data["0"], 2):.2f}', fill='white', font=font)
     return im
 
 
-def create_banners_files(hqcasanova_data, path, prefix='banner'):
+def banner_horiz(hqcasanova_data):
+    dt = pendulum.instance(hqcasanova_data['date'])
+    im = Image.new('RGB', (375, 65))
+    draw = ImageDraw.Draw(im)
+    # boxes
+    draw.rectangle([(0,  0), (64, 64)], 'black', 'white', 1)
+    draw.rectangle([(64, 0), (214,64)], 'coral', 'white', 1)
+    draw.rectangle([(214,0), (294,64)], '#5B5B5B', 'white', 1)
+    draw.rectangle([(294,0), (374,64)], '#5B5B5B', 'white', 1)
+
+    # small text
+    font = ImageFont.truetype(FONT, 12)
+    draw.text((102, 8), dt.to_formatted_date_string(), fill='white', font=font)
+    draw.text((240, 8), f'{int(dt.year) - 1}', fill='white', font=font)
+    draw.text((320, 8), f'{int(dt.year) - 10}', fill='white', font=font)
+
+    # medium text
+    font = ImageFont.truetype(FONT, 20)
+    draw.text((12, 6), 'CO2', fill='white', font=font)
+    draw.text((12, 30), 'PPM', fill='white', font=font)
+    draw.text((225, 30), f'{round(hqcasanova_data["1"], 2):.2f}', fill='white', font=font)
+    draw.text((305, 30), f'{round(hqcasanova_data["10"], 2):.2f}', fill='white', font=font)
+
+    # big text
+    font = ImageFont.truetype(FONT, 36)
+    draw.text((83, 15), f'{round(hqcasanova_data["0"], 2):.2f}', fill='white', font=font)
+    return im
+
+
+def create_banners_files(hqcasanova_data, path, prefix='banner', ext='png'):
+    banner_types = ['sq', 'horiz']
     files = []
-    im = banner_sq(hqcasanova_data)
-    f_name = f'{prefix}_sq.png'
-    im.save(os.path.join(path, f_name))
-    files.append(f_name)
+    for bt in banner_types:
+        fn_name = f'{prefix}_{bt}'
+        f_name = f'{prefix}_{bt}.{ext}'
+        g_dict = globals()
+        if fn_name in g_dict.keys():
+            im = g_dict[fn_name](hqcasanova_data)
+            im.save(os.path.join(path, f_name))
+            files.append(f_name)
     return {
         'date': hqcasanova_data['date'].date(),
         'files': files,

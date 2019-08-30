@@ -43,6 +43,8 @@ def obj_finder(bucket_name, last_date, days_back=10, obj_name='ppm00.svg'):
                     }
                 })
     return {
+        'year': last_date.year,
+        'date': last_date.isoformat(),
         'days': obj_list
     }
 

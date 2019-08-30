@@ -6,6 +6,11 @@ from co2ppmbadge.utils.badges import get_badges_dict, create_badges_files
 from .fixtures import hqcasanova_data
 
 
+def test_version():
+    from co2ppmbadge.version import __version__
+    assert __version__ == '1.0.0'
+
+
 def test_hqcasanova(hqcasanova_data):
     assert hqcasanova_data['0'] > 400
     assert hqcasanova_data['1'] > 400

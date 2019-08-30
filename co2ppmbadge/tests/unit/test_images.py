@@ -12,6 +12,9 @@ def test_banner_sq(hqcasanova_static_data):
     banners_output = [{
         'size': (155, 155),
         'mode': 'RGB',
+    },{
+        'size': (375, 65),
+        'mode': 'RGB',
     }]
     with tempfile.TemporaryDirectory() as tmpdirname:
         banners = create_banners_files(hqcasanova_static_data, tmpdirname)

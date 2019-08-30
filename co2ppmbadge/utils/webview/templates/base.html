@@ -46,6 +46,7 @@
       button { font-size: 1rem; padding: 3px 5px; }
       pre { background-color: coral; color: white; padding: 30px 10px; }
       .container { width: 70%; margin: 0 auto; }
+      .hidden { display: none; }
     </style>
   </head>
   <body>
@@ -60,34 +61,50 @@
     <main role="main">
       <section id="introduction">
         <div class="container">
-          <h1>Why a Badge</h1>
-          <p>APIs are for nerds, badges are easy and cool!</p>
+          <h1>Why an image?</h1>
+          <p>APIs are for nerds, badges and banners are easy to embed on any webpage and are cool!</p>
         </div>
       </section>
       <section id="badges">
         <div class="container">
-          <h1>The Badges</h1>
-          <ul>
-            <li>
-              ppm00:
-              <img src="https://co2ppmbadge.piazza.energy/latest/ppm00.svg">
-              latest
-            </li>
-            <li>
-              ppm01:
-              <img src="https://co2ppmbadge.piazza.energy/latest/ppm01.svg">
-              1 year before
-            </li>
-            <li>
-              ppm10:
-              <img src="https://co2ppmbadge.piazza.energy/latest/ppm10.svg">
-              10 years before
-            </li>
-          </ul>
-          <h2>How to embed</h2>
-          <p>just add any of the following images to your HTML:</p>
-          <pre id="embed_svg">
-          </pre>
+          <h1>Banners &amp; Badges</h1>
+          <h3>Square banner</h3>
+          <p>
+            <img src="https://co2ppmbadge.piazza.energy/latest/banner_sq.png">
+            shows all the values in a square image in PNG format
+          </p>
+          <h3>Horizontal banner</h3>
+          <p>
+            <img src="https://co2ppmbadge.piazza.energy/latest/banner_horiz.png">
+            shows all the values in a horizontal image in PNG format
+          </p>
+          <h3>PPM 00</h3>
+          <p>
+            <img src="https://co2ppmbadge.piazza.energy/latest/ppm00.svg">
+            is the latest available badge
+          </p>
+          <h3>PPM 01</h3>
+          <p>
+            <img src="https://co2ppmbadge.piazza.energy/latest/ppm01.svg">
+            shows the value 1 year before the latest available badge
+          </p>
+          <h3>PPM 02</h3>
+          <p>
+            <img src="https://co2ppmbadge.piazza.energy/latest/ppm10.svg">
+            shows the value 10 years before the latest available badge
+          </p>
+          <h1>How to embed</h1>
+          <p>Right click on any image and select "copy image address" from the contextual menu,
+            the URL can then be used in any HTML or Markdown page.
+          </p>
+          <p>
+              For web pages, just add any of the following images to your HTML:
+          </p>
+          <pre id="embed_svg_html"></pre>
+          <p>
+              For Markdown (e.g. on Github repos), just add any of the following images:
+          </p>
+          <pre id="embed_svg_md"></pre>
         </div>
       </section>
       <section id="stats">
@@ -104,7 +121,7 @@
           <p>a list of previously released badges</p>
           <ul>
             {% for day in days %}
-              <li>ppm00 {{ day['ppm00.svg'].date }} <img href="{{ day['ppm00.svg'].url }}" /></li>
+              <li>ppm00 {{ day['ppm00.svg'].date }} <img src="{{ day['ppm00.svg'].url }}" /></li>
             {% endfor %}
           </ul>
         </div>
@@ -131,15 +148,24 @@
       <div class="container">
         <p>This project is proudly sponsored by <a href="https://deep.ventures/">Deep.Ventures</a></p>
         <p>Check the source code and contribute by visiting this <a href="http://github.com/piazza-energy/co2ppmbadge">Github repo</a></p>
-        <p>Energy Piazza &copy; 2019</p>
+        <p>Energy Piazza &copy; {{ year }}</p>
+        <p class="hidden">Last update: {{ date }}</p>
       </div>
     </footer>
     <script>
       const base_url = 'https://co2ppmbadge.piazza.energy/latest/';
-      const embed_svg = document.getElementById('embed_svg');
-      ['ppm00.svg', 'ppm01.svg', 'ppm10.svg'].forEach(function(element) {
-        const img_tag = document.createTextNode(`<img src="${base_url + element}">\n`);
-        embed_svg.appendChild(img_tag);
+      const embed_svg_html = document.getElementById('embed_svg_html');
+      const embed_svg_md = document.getElementById('embed_svg_md');
+      const images = [
+        'ppm00.svg', 'ppm01.svg', 'ppm10.svg',
+        'banner_sq.png', 'banner_horiz.png'
+      ];
+      images.forEach(function(element) {
+        const full_url = base_url + element;
+        const img_tag = document.createTextNode(`<img src="${full_url}">\n`);
+        embed_svg_html.appendChild(img_tag);
+        const md_tag = document.createTextNode(`![${element}](${full_url})\n`);
+        embed_svg_md.appendChild(md_tag);
       });
       const loadDatahub = function(elem) {
         elem.disabled = true;

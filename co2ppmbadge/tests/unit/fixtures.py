@@ -1,9 +1,9 @@
-import json
 import pytest
 
 from datetime import datetime, date, timezone
 
 from co2ppmbadge.utils.datasrc.hqcasanova import get_data
+from co2ppmbadge.serverless.formats import response_create_badges
 
 
 @pytest.fixture(scope='session')
@@ -25,7 +25,7 @@ def hqcasanova_static_data():
     """
     return {
         '0': 410.24,
-        '1': 407.07,
+        '1': 407.7,
         '10': 385.95,
         'units': 'ppm',
         'date': datetime.now(timezone.utc),
@@ -36,13 +36,10 @@ def hqcasanova_static_data():
 
 @pytest.fixture
 def sns_event():
-    message = json.dumps({
-        'data': {
-            'date': date.today().isoformat(),
-            'bucket': 'MOCK_BUCKET',
-            'keys': [f'latest/{f_name}' for f_name in ['ppm00.svg', 'ppm01.svg', 'ppm10.svg']]
-        }
-    })
+    message = response_create_badges(
+        date.today(),
+        'MOCK_BUCKET',
+        [f'latest/{f_name}' for f_name in ['ppm00.svg', 'ppm01.svg', 'ppm10.svg']])
     return {
         "Records":[
             {

@@ -1,8 +1,8 @@
 import os
-import json
 import tempfile
 from dotenv import load_dotenv
 
+from co2ppmbadge.serverless.formats import response_create_badges
 from co2ppmbadge.utils.badges import create_badges_files
 from co2ppmbadge.utils.banners import create_banners_files
 from co2ppmbadge.utils.datasrc.hqcasanova import get_data
@@ -48,13 +48,10 @@ def lambda_handler(event, context):
             out.append(f'latest/{f_name}')
             out.append(f'{d_iso}/{f_name}')
 
-    msg = json.dumps({
-        'data': {
-            'date': hqcasanova_data['date'].isoformat(),
-            'bucket': S3_BUCKET,
-            'keys': out,
-        },
-    })
+    msg = response_create_badges(
+        hqcasanova_data['date'],
+        S3_BUCKET,
+        out)
     send_sns_msg(SNS_TOPIC_NEW_BADGES, msg)
     return {
         'statusCode': 200,

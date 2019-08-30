@@ -15,6 +15,7 @@ resource "aws_lambda_function" "create_badges" {
   s3_bucket         = "${aws_s3_bucket_object.lambda_create_badges_src.bucket}"
   s3_key            = "${aws_s3_bucket_object.lambda_create_badges_src.key}"
   s3_object_version = "${aws_s3_bucket_object.lambda_create_badges_src.version_id}"
+  source_code_hash  = "${filebase64sha256("${var.lambda_create_badges_zip_name}")}"
   function_name     = "${var.lambda_create_badges_fn_name}"
   role              = "${aws_iam_role.iam_for_lambda.arn}"
   handler           = "app.lambda_handler"
