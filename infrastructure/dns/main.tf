@@ -1,7 +1,7 @@
 variable "domain_name" {}
 variable "subdomain_name" {}
-variable "aws_cloudfront_distribution_domain_name" {}
-variable "aws_cloudfront_distribution_zone_id" {}
+variable "cdn_domain_name" {}
+variable "cdn_zone_id" {}
 
 data "aws_route53_zone" "main" {
   name = "${var.domain_name}."
@@ -13,8 +13,8 @@ resource "aws_route53_record" "entrypoint" {
   type    = "A"
 
   alias {
-    name                   = "${var.aws_cloudfront_distribution_domain_name}"
-    zone_id                = "${var.aws_cloudfront_distribution_zone_id}"
+    name                   = "${var.cdn_domain_name}"
+    zone_id                = "${var.cdn_zone_id}"
     evaluate_target_health = false
   }
 }

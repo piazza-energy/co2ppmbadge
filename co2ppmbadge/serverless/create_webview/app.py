@@ -5,8 +5,7 @@ import tempfile
 import pendulum
 from dotenv import load_dotenv
 
-from co2ppmbadge.utils.webview import obj_finder, html_creator
-from co2ppmbadge.utils.s3 import upload_file
+from co2ppmbadge.mgmt import create_upload_html
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -28,8 +27,4 @@ def lambda_handler(event, context):
     event_data = json.loads(event['Records'][0]['Sns']['Message'])
     last_date = pendulum.parse(event_data['data']['date']).date()
     logger.info(f'creating index file for {last_date}')
-    tmpl_data = obj_finder(S3_BUCKET, last_date)
-
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        path, f_name = html_creator(tmpl_data, tmpdirname)
-        upload_file(os.path.join(path, f_name), S3_BUCKET, f_name)
+    create_upload_html(S3_BUCKET, last_date)

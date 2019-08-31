@@ -63,8 +63,38 @@ def banner_horiz(hqcasanova_data):
     return im
 
 
+def banner_share(hqcasanova_data):
+    dt = pendulum.instance(hqcasanova_data['date'])
+    im = Image.new('RGB', (1000, 500))
+    draw = ImageDraw.Draw(im)
+    # boxes
+    draw.rectangle([(0,    0), (600, 200)], 'black', 'white', 1)
+    draw.rectangle([(600,  0), (999, 499)], 'coral', 'white', 1)
+    draw.rectangle([(0,  200), (300, 499)], '#5B5B5B', 'white', 1)
+    draw.rectangle([(300,200), (600, 499)], '#5B5B5B', 'white', 1)
+
+    # small text
+    font = ImageFont.truetype(FONT, 36)
+    draw.text((110, 390), f'{int(dt.year) - 10}', fill='white', font=font)
+    draw.text((410, 390), f'{int(dt.year) - 1}', fill='white', font=font)
+    draw.text((700, 390), dt.to_formatted_date_string(), fill='white', font=font)
+
+    # medium text
+    font = ImageFont.truetype(FONT, 72)
+    draw.text((35,   50), 'CO2', fill='white', font=font)
+    draw.text((180,  50), 'PPM', fill='coral', font=font)
+    draw.text((330,  50), 'BADGE', fill='white', font=font)
+    draw.text((40,  280), f'{round(hqcasanova_data["1"], 2):.2f}', fill='white', font=font)
+    draw.text((340, 280), f'{round(hqcasanova_data["10"], 2):.2f}', fill='white', font=font)
+
+    # big text
+    font = ImageFont.truetype(FONT, 108)
+    draw.text((630, 165), f'{round(hqcasanova_data["0"], 2):.2f}', fill='white', font=font)
+    return im
+
+
 def create_banners_files(hqcasanova_data, path, prefix='banner', ext='png'):
-    banner_types = ['sq', 'horiz']
+    banner_types = ['sq', 'horiz', 'share']
     files = []
     for bt in banner_types:
         fn_name = f'{prefix}_{bt}'

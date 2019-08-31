@@ -47,11 +47,11 @@ module "lambda" {
 }
 
 module "dns" {
-  source                                  = "./dns"
-  domain_name                             = "${var.domain_name}"
-  subdomain_name                          = "${var.namespace}"
-  aws_cloudfront_distribution_zone_id     = "${module.cdn.aws_cloudfront_distribution_zone_id}"
-  aws_cloudfront_distribution_domain_name = "${module.cdn.aws_cloudfront_distribution_domain_name}"
+  source          = "./dns"
+  domain_name     = "${var.domain_name}"
+  subdomain_name  = "${var.namespace}"
+  cdn_zone_id     = "${module.cdn.cdn_zone_id}"
+  cdn_domain_name = "${module.cdn.cdn_domain_name}"
 }
 
 module "cdn" {
@@ -66,4 +66,22 @@ module "cdn" {
   bucket_badges_rn = "${module.storage.s3_bucket_badges_regional_name}"
   bucket_logging   = "${module.storage.s3_bucket_logging_id}"
   domain_name      = "${var.domain_name}"
+}
+
+locals {
+  mgmt_env = "${templatefile(
+    "${path.root}/templates/env_mgmt.tmpl",
+    {
+      region               = "${var.aws_region}"
+      profile              = "${var.aws_profile}"
+      bucket_badges        = "${module.storage.s3_bucket_badges_id}"
+      sns_topic_new_badges = "${module.notifications.new_badges_topic_arn}"
+      cdn_distribution_id  = "${module.cdn.cdn_distribution_id}"
+    }
+  )}"
+}
+
+resource "local_file" "env_mgmt" {
+  filename = "${path.root}/../co2ppmbadge/mgmt/.env"
+  content  = "${local.mgmt_env}"
 }
