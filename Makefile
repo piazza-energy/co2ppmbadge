@@ -9,6 +9,10 @@ help:
 test:
 	pipenv run pytest co2ppmbadge/tests/
 
+coveralls:
+	# mh... don't really know what I'm doing wrong here
+	source .env && pipenv run coveralls
+
 build_zips:
 	make -C ${SOURCE_DIR} build_zips
 
