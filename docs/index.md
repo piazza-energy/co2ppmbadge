@@ -14,7 +14,7 @@ layout: default
 
 We want to provide a simple mean of communication that can be used on any website as a quick and identifiable tool that can be easily distributed across the internet.
 
-**Please** visit the website https://co2ppmbadge.piazza.energy/ for information on how to use the badges.
+**Please** visit the website [co2ppmbadge.piazza.energy](https://co2ppmbadge.piazza.energy/) for information on how to use the badges.
 
 # Further readings
 
