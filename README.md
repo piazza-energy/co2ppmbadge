@@ -10,6 +10,8 @@
 
 We want to provide a simple mean of communication that can be used on any website as a quick and identifiable tool that can be easily distributed across the internet.
 
+**Please** visit the website https://co2ppmbadge.piazza.energy/
+
 ## Web Page
 
 svg images for CO2 PPM, respectively latest, 1 year before, 10 years before

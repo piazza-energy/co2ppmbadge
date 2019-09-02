@@ -15,7 +15,7 @@ docker_shell:
 	docker run --rm -ti -v ${CURRENT_DIR}:/${VOLUME_DIR} lambci/lambda:build-python3.6 bash
 
 build_zips: build_layer build_lambda_badges build_lambda_webview
-	-echo "### all zips built ###"
+	@echo "### all zips built ###"
 
 build_layer: pin_requirements
 	docker run --rm -v ${CURRENT_DIR}:/${VOLUME_DIR} lambci/lambda:build-python3.6 bash -c \

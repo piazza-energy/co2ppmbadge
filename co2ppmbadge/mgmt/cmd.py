@@ -1,7 +1,12 @@
 """ provides some handy commands to run management tasks
 
+these env variables should be defined to run the scripts
+
 AWS_DEFAULT_REGION
 AWS_PROFILE
+
+S3_BUCKET
+CDN_DISTRIBUTION_ID
 
 """
 import os

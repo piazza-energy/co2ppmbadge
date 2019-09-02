@@ -1,5 +1,4 @@
 import os
-import tempfile
 from dotenv import load_dotenv
 
 from co2ppmbadge.mgmt import create_upload_banners, create_upload_badges

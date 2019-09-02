@@ -1,4 +1,10 @@
+---
+layout: default
+---
+
 # CO2 information
+
+[back to the index](./)
 
 - [very good post](https://e360.yale.edu/features/how-the-world-passed-a-carbon-threshold-400ppm-and-why-it-matters) on Yale.edu
 - [Mauna Loa](https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html) by National Oceanic and Atmospheric Administration (NOAA), exposes a [rss feed](https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml)

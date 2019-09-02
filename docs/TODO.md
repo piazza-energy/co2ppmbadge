@@ -7,7 +7,8 @@ priority highest to lowest
   - ~~have og tags for social media sharing~~
   - ~~potentially have a graph based on historical data~~
 - ~~more and better looking image types~~
-- implement cdn logging monitor, maybe with ELK
-- implement a Twitter account with posts after each update
-- implement a form of etag to get the latest update without waiting cache to expire
 - publish content to a github page
+- implement a Twitter account with posts after each update
+- implement cdn logging monitor, maybe with ELK
+- continuous integration
+- implement a form of etag to get the latest update without waiting cache to expire
