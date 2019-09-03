@@ -21,4 +21,5 @@ We want to provide a simple mean of communication that can be used on any websit
 have a look at:
 
 - How to contribute with [development](./dev.md)
+- [Roadmap](./roadmap.md)
 - Some CO2 [references](./ref.md), documents, APIs, etc.

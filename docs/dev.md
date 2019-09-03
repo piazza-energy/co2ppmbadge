@@ -21,6 +21,7 @@ Everything deployed to AWS using Terraform scripts.
 
 1. python 3.6 with pipenv
 2. an AWS IAM profile named `dv-co2ppmbadge` (or rename what defined in [terraform.tfvars](../infrastructure/terraform.tfvars)) with credentials stored in `~/.aws`
+3. install dependencies, as follows:
 
 ```bash
 pipenv install --dev
@@ -28,11 +29,16 @@ pipenv install --dev
 
 ## Test
 
+this will run unit tests and reports on code coverage
+
 ```bash
 make test
+make coveralls
 ```
 
 ## Deploy
+
+create infrastructure
 
 ```bash
 make build_zips
@@ -42,6 +48,8 @@ make tf_apply
 ```
 
 ## Destroy
+
+delete infrastructure
 
 ```bash
 make tf_destroy

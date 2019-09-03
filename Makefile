@@ -10,8 +10,18 @@ test:
 	pipenv run pytest co2ppmbadge/tests/
 
 coveralls:
-	# mh... don't really know what I'm doing wrong here
+	# .env file exports COVERALLS_REPO_TOKEN
 	source .env && pipenv run coveralls
+
+notify_errs:
+	# these 2 .env files export SNS_TOPIC_LAMBDA_ERRS and EMAIL_SUBS_ERRORS
+	# source .env && source ./co2ppmbadge/mgmt/.env
+	SNS_TOPIC_LAMBDA_ERRS=${SNS_TOPIC_LAMBDA_ERRS}
+	EMAIL_SUBS_ERRORS=${EMAIL_SUBS_ERRORS}
+	pipenv run aws sns subscribe \
+		--topic-arn ${SNS_TOPIC_LAMBDA_ERRS} \
+		--protocol email \
+		--notification-endpoint ${EMAIL_SUBS_ERRORS}
 
 build_zips:
 	make -C ${SOURCE_DIR} build_zips

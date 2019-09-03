@@ -53,3 +53,29 @@ resource "aws_sns_topic_subscription" "lambda_create_webview" {
   protocol  = "lambda"
   endpoint  = "${aws_lambda_function.create_webview.arn}"
 }
+
+resource "aws_cloudwatch_metric_alarm" "create_webview_error" {
+  alarm_name          = "create-webview-error"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = "3600"
+  statistic           = "Sum"
+  threshold           = "1"
+  treat_missing_data  = "ignore"
+  alarm_description   = "Create webview errors"
+
+  alarm_actions = [
+    "${var.sns_lambda_execution_errors_topic_arn}",
+  ]
+
+  ok_actions = [
+    "${var.sns_lambda_execution_errors_topic_arn}",
+  ]
+
+  dimensions = {
+    FunctionName = "${var.lambda_create_webview_fn_name}"
+    Resource     = "${var.lambda_create_webview_fn_name}"
+  }
+}

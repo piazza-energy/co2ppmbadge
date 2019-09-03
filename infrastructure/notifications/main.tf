@@ -1,5 +1,9 @@
 variable "lambda_iam_role" {}
 
+resource "aws_sns_topic" "lambda_execution_errors" {
+  name = "lambda-execution-errors"
+}
+
 resource "aws_sns_topic" "new_badges" {
   name = "new-badges-created"
 }

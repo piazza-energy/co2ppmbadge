@@ -4,6 +4,7 @@ variable "bucket_sources" {}
 variable "bucket_badges" {}
 variable "bucket_badges_arn" {}
 variable "sns_new_badges_topic_arn" {}
+variable "sns_lambda_execution_errors_topic_arn" {}
 variable "base_path_src" {}
 
 variable "layer_zip_name" {

@@ -36,14 +36,18 @@ module "storage" {
 }
 
 module "lambda" {
-  source                   = "./lambda"
-  namespace                = "${var.namespace}"
-  aws_region               = "${var.aws_region}"
-  bucket_sources           = "${module.storage.s3_bucket_sources_id}"
-  bucket_badges            = "${module.storage.s3_bucket_badges_id}"
-  bucket_badges_arn        = "${module.storage.s3_bucket_badges_arn}"
-  sns_new_badges_topic_arn = "${module.notifications.new_badges_topic_arn}"
-  base_path_src            = "${path.cwd}/../co2ppmbadge"
+  source                                = "./lambda"
+  namespace                             = "${var.namespace}"
+  aws_region                            = "${var.aws_region}"
+
+  bucket_sources                        = "${module.storage.s3_bucket_sources_id}"
+  bucket_badges                         = "${module.storage.s3_bucket_badges_id}"
+  bucket_badges_arn                     = "${module.storage.s3_bucket_badges_arn}"
+
+  sns_new_badges_topic_arn              = "${module.notifications.new_badges_topic_arn}"
+  sns_lambda_execution_errors_topic_arn = "${module.notifications.lambda_execution_errors_topic_arn}"
+
+  base_path_src                         = "${path.cwd}/../co2ppmbadge"
 }
 
 module "dns" {
@@ -72,11 +76,12 @@ locals {
   mgmt_env = "${templatefile(
     "${path.root}/templates/env_mgmt.tmpl",
     {
-      region               = "${var.aws_region}"
-      profile              = "${var.aws_profile}"
-      bucket_badges        = "${module.storage.s3_bucket_badges_id}"
-      sns_topic_new_badges = "${module.notifications.new_badges_topic_arn}"
-      cdn_distribution_id  = "${module.cdn.cdn_distribution_id}"
+      region                  = "${var.aws_region}"
+      profile                 = "${var.aws_profile}"
+      bucket_badges           = "${module.storage.s3_bucket_badges_id}"
+      sns_topic_new_badges    = "${module.notifications.new_badges_topic_arn}"
+      sns_topic_lambda_errors = "${module.notifications.lambda_execution_errors_topic_arn}"
+      cdn_distribution_id     = "${module.cdn.cdn_distribution_id}"
     }
   )}"
 }

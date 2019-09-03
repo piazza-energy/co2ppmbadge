@@ -44,3 +44,29 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_create_badges" {
     principal = "events.amazonaws.com"
     source_arn = "${aws_cloudwatch_event_rule.every_day.arn}"
 }
+
+resource "aws_cloudwatch_metric_alarm" "create_badges_error" {
+  alarm_name          = "create-badges-error"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = "3600"
+  statistic           = "Sum"
+  threshold           = "1"
+  treat_missing_data  = "ignore"
+  alarm_description   = "Create badges errors"
+
+  alarm_actions = [
+    "${var.sns_lambda_execution_errors_topic_arn}",
+  ]
+
+  ok_actions = [
+    "${var.sns_lambda_execution_errors_topic_arn}",
+  ]
+
+  dimensions = {
+    FunctionName = "${var.lambda_create_badges_fn_name}"
+    Resource     = "${var.lambda_create_badges_fn_name}"
+  }
+}
